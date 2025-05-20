@@ -13,7 +13,7 @@ client.once('ready', () => {
     status: 'idle', // 🟡 Aparece como "Ausente"
     activities: [
       {
-        name: '📄 Bloody',
+        name: '🩸 Bloody',
         type: 4, // 4 = Custom Status
       },
     ],
