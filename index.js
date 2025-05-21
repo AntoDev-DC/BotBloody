@@ -1,4 +1,6 @@
-const { Client, GatewayIntentBits, Partials, EmbedBuilder, Events } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, Collection, GatewayIntentBits, Partials, Events } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({
@@ -6,61 +8,35 @@ const client = new Client({
   partials: [Partials.Channel],
 });
 
+client.commands = new Collection();
+const cmdPath = path.join(__dirname, 'cmd');
+const commandFiles = fs.readdirSync(cmdPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./cmd/${file}`);
+  client.commands.set(command.data.name, command);
+}
+
 client.once('ready', () => {
   console.log(`✅ Bot listo como ${client.user.tag}`);
 
   client.user.setPresence({
-    status: 'idle', // 🟡 Aparece como "Ausente"
-    activities: [
-      {
-        name: '🩸 Bloody',
-        type: 4, // 4 = Custom Status
-      },
-    ],
+    status: 'idle',
+    activities: [{ name: '🩸 Bloody', type: 4}],
   });
 });
 
-
-client.on(Events.InteractionCreate, async (interaction) => {
+client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === 'embed') {
-    await interaction.reply({ content: '📥 Por el JSON EDITOR de tu embed. Escribe el JSON a continuación:', ephemeral: true });
+  const command = client.commands.get(interaction.commandName);
+  if (!command) return;
 
-    const filter = (m) => m.author.id === interaction.user.id;
-    const collector = interaction.channel.createMessageCollector({ filter, time: 60000, max: 1 });
-
-    collector.on('collect', async (m) => {
-      try {
-        const json = JSON.parse(m.content);
-
-        let embedsData = [];
-
-        if (Array.isArray(json.embeds)) {
-          embedsData = json.embeds;
-        } else if (Array.isArray(json)) {
-          embedsData = json;
-        } else {
-          embedsData = [json];
-        }
-
-        const embeds = embedsData.map((e) => EmbedBuilder.from(e));
-
-        await m.delete();
-        await interaction.channel.send({ embeds });
-
-      } catch (err) {
-        console.error(err);
-        await interaction.channel.send('❌ Error al procesar el JSON. Asegúrate de que esté bien escrito.');
-        console.log("El mensaje entregado, no es correcto. Por favor, indica un mensaje correcto");
-      }
-    });
-
-    collector.on('end', (collected) => {
-      if (collected.size === 0) {
-        interaction.followUp({ content: '⏰ Tiempo agotado. Vuelve a usar `/embed` si deseas intentarlo de nuevo.', ephemeral: true });
-      }
-    });
+  try {
+    await command.execute(interaction);
+  } catch (err) {
+    console.error(err);
+    await interaction.reply({ content: '❌ Hubo un error al ejecutar este comando.', ephemeral: true });
   }
 });
 
