@@ -1,11 +1,11 @@
-import { EmbedBuilder } from 'discord.js';
+const { EmbedBuilder } = require('discord.js');
 
 const embed = new EmbedBuilder()
     .setColor(3066993)
     .setTitle("Help")
-    .setDescription("Ayuda.\nComandos:\n/eb-m1, envia un Embed Construido\n/embed, envia un Embed que lo haces Tu")
+    .setDescription("Comandos:\n/eb-m1, envia un Embed Construido\n/embed, envia un Embed que lo haces Tu en Discohook")
     .setAuthor({
         name: "Bot Bloody.",
 });
 
-export default embed;
+module.exports = embed;
