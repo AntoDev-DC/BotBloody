@@ -25,17 +25,6 @@ module.exports = {
       option.setName('name')
         .setDescription('Texto de la actividad (ej. "Jugando a un juego")')
         .setRequired(true)
-    )
-    .addStringOption(option =>
-      option.setName('status')
-        .setDescription('Estado del bot')
-        .setRequired(true)
-        .addChoices(
-          { name: 'online', value: 'online' },
-          { name: 'idle', value: 'idle' },
-          { name: 'dnd', value: 'dnd' },
-          { name: 'invisible', value: 'invisible' }
-        )
     ),
 
   async execute(interaction) {

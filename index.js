@@ -19,6 +19,11 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
   console.log(`✅ Bot listo como ${client.user.tag}`);
+
+  client.user.setPresence({
+    status: 'idle',
+    activities: [{ name: 'AXO Tags y Bloody', type: 4}],
+  });
 });
 
 client.on(Events.InteractionCreate, async interaction => {
