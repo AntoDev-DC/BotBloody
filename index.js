@@ -12,10 +12,13 @@ client.commands = new Collection();
 const cmdPath = path.join(__dirname, 'cmd');
 const commandFiles = fs.readdirSync(cmdPath).filter(file => file.endsWith('.js'));
 
+
+
 for (const file of commandFiles) {
   const command = require(`./cmd/${file}`);
   client.commands.set(command.data.name, command);
 }
+
 
 client.once('ready', () => {
   console.log(`✅ Bot listo como ${client.user.tag}`);

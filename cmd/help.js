@@ -1,7 +1,8 @@
-import { SlashCommandBuilder } from 'discord.js';
-import embed from '../eb/help.js';
+// filepath: c:\Users\priva\git\Bot-Anto\cmd\help.js
+const { SlashCommandBuilder } = require('discord.js');
+const embed = require('../eb/help.js');
 
-export default {
+module.exports = {
   data: new SlashCommandBuilder()
     .setName('help')
     .setDescription('Ayuda del Bot'),
