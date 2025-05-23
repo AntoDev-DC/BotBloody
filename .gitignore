@@ -1,4 +1,4 @@
 .env
 node_modules
 init-dev.sh
-init-dev.cmd
+index-bt.js

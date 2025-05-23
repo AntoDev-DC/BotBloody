@@ -1,3 +1,3 @@
 @echo off
 node deploy-commands.js
-node .
+node index-bt.js
