@@ -3,8 +3,8 @@ const embed = require('../eb/eb-2.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('eb-1')
-    .setDescription('Envía un embed desde un archivo separado'),
+    .setName('eb-2')
+    .setDescription('Envía un embed desde un archivo separado. Segundo Embed'),
 
   async execute(interaction) {
     // Mensaje solo visible para quien usa el comando
