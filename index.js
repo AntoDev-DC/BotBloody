@@ -8,6 +8,8 @@ const client = new Client({
   partials: [Partials.Channel],
 });
 
+const stateName = process.env.STATE_NAME;
+
 client.commands = new Collection();
 const cmdPath = path.join(__dirname, 'cmd');
 const commandFiles = fs.readdirSync(cmdPath).filter(file => file.endsWith('.js'));
@@ -22,7 +24,7 @@ client.once('ready', () => {
 
   client.user.setPresence({
     status: 'idle',
-    activities: [{ name: 'AXO Tags y Bloody', type: 4}],
+    activities: [{ name: stateName, type: 4}],
   });
 });
 
